@@ -9,10 +9,10 @@ typedef struct {
 	int weight;
 } MyPair;
 
-vector<MyPair> graph[502];
+vector<MyPair> graph[501];
 vector<int> parent[501];
 
-MyPair route[502];
+MyPair route[501];
 int visited[501];
 
 int minroute[501];
@@ -91,6 +91,12 @@ void eraseGraph(int dest) {
 }
 
 int main() {
+    cin.tie(NULL);
+
+    cout.tie(NULL);
+
+    ios::sync_with_stdio(false);
+    
 	while (true) {
 		int n, m;
 		cin >> n >> m;
