@@ -4,9 +4,14 @@ using namespace std;
 long long seq[1000001];
 long long tree[4000001];
 
+int tMax;
+
 void make_segment_tree(int node, int start, int end) {
 	if (start == end) {
 		tree[node] = seq[start];
+		if (node > tMax) {
+			tMax = node;
+		}
 	}
 	else {
 		make_segment_tree(node * 2, start, (start + end) / 2);
@@ -25,8 +30,12 @@ void update(int node, int start, int end, int index, long long diff) {
 	}
 	if (start <= index && index <= end) {
 		tree[node] += diff;
-		update(node * 2, start, (start + end) / 2, index, diff);
-		update(node * 2 + 1, (start + end) / 2 + 1, end,  index, diff);
+		if (node * 2 <= tMax) {
+			update(node * 2, start, (start + end) / 2, index, diff);
+		}
+		if (node * 2 + 1 <= tMax) {
+			update(node * 2 + 1, (start + end) / 2 + 1, end, index, diff);
+		}
 	}
 }
 
@@ -40,8 +49,12 @@ void getSum(int node, int start, int end, int left, int right) {
 		sum += tree[node];
 		return;
 	}
-	getSum(node * 2, start, (start + end) / 2, left, right);
-	getSum(node * 2 + 1, (start + end) / 2 + 1, end, left, right);
+	if (node * 2 <= tMax) {
+		getSum(node * 2, start, (start + end) / 2, left, right);
+	}
+	if (node * 2 + 1 <= tMax) {
+		getSum(node * 2 + 1, (start + end) / 2 + 1, end, left, right);
+	}
 }
 
 int main() {
