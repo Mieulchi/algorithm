@@ -9,7 +9,7 @@ void solve() {
 	string tmp = s;
 	for (int i = 0; i <= n; i++) {
 		tmp = s;
-		for (int j = 0; j < pow(3, i); j++) {
+		for (int j = 0; j < tmp.length(); j++) {
 			s += " ";
 		}
 		s += tmp;
