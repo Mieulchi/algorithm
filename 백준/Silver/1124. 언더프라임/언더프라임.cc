@@ -1,28 +1,19 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
 using namespace std;
 
 int a, b;
 int prime[100001];
-vector<int> v;
 int ans;
 
 void solve() {
 	for (int i = a; i <= b; i++) {
 		int j = i;
 		int count = 0;
-		int index = 0;
 		while (j > 1) {
-			if (j % v[index] == 0) {
-				count++;
-				j /= v[index];
-			}
-			else {
-				index++;
-			}
+			j /= prime[j];
+			count++;
 		}
-		if (!prime[count]) {
+		if (prime[count] == count) {
 			ans++;
 		}
 	}
@@ -33,20 +24,13 @@ int main() {
 	cin.tie(NULL);
 
 	cin >> a >> b;
-    prime[1] = 1;
-	for (int i = 2; i <= 100000; i++) {
-		int j;
-		if (!prime[i]) {
-			j = i + i;
-			v.push_back(i);
-		}
-		else {
-			continue;
-		}
 
-		while (j <= 100000) {
-			prime[j] = 1;
-			j += i;
+	for (int i = 2; i <= 100000; i++) {
+		for (int j = i; j <= 100000; j += i) {
+			if (prime[j]) {
+				continue;
+			}
+			prime[j] = i;
 		}
 	}
 
