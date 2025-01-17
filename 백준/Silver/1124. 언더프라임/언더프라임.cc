@@ -22,7 +22,7 @@ void solve() {
 				index++;
 			}
 		}
-		if (find(v.begin(), v.end(), count) != v.end()) {
+		if (!prime[count]) {
 			ans++;
 		}
 	}
@@ -33,7 +33,7 @@ int main() {
 	cin.tie(NULL);
 
 	cin >> a >> b;
-
+    prime[1] = 1;
 	for (int i = 2; i <= 100000; i++) {
 		int j;
 		if (!prime[i]) {
