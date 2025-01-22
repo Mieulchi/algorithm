@@ -1,5 +1,6 @@
 #include <iostream>
-#include <vector>
+#include <queue>
+#include <map>
 using namespace std;
 
 int n;
@@ -7,41 +8,40 @@ int inout[200001];
 vector<int> v[200001];
 int ans;
 int visited[200001];
-int start;
+int cnt;
+queue<int> q;
 
-void init() {
-	for (int i = 0; i < 200001; i++) {
-		visited[i] = 0;
-	}
-}
-
-void dfs(int s) {
-	if (visited[s]) {
+void dfs(int s, int start) {
+	visited[s] = 1;
+	if (s != start && inout[s]) {
+		cnt++;
+		q.push(s);
 		return;
 	}
-
-	visited[s] = 1;
-
-	if (inout[s] == 1 && s != start) {
-		ans++;
-	}
-	else {
-		for (int i = 0; i < v[s].size(); i++) {
-			if (v[s][i] != start) {
-				dfs(v[s][i]);
-			}
+	for (int i = 0; i < v[s].size(); i++) {
+		if (!visited[v[s][i]]) {
+			dfs(v[s][i], start);
+		}
+		if (s == start) {
+			ans += cnt * (cnt + 1);
+			cnt = 0;
 		}
 	}
 }
 
 void solve() {
 	for (int i = 1; i <= n; i++) {
-		if (inout[i] == 1) {
-			start = i;
-			dfs(i);
+		if (inout[i] == 1 && !visited[i]) {
+			q.push(i);
+			break;
 		}
-		init();
 	}
+	while (!q.empty()) {
+		int i = q.front();
+		q.pop();
+		dfs(i, i);
+	}
+
 }
 
 int main() {
@@ -63,5 +63,5 @@ int main() {
 
 	solve();
 
-	cout<<ans;
+	cout << ans;
 }
