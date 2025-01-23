@@ -30,7 +30,7 @@ void solve() {
 				if (loc - 1 >= 0 && !visited[loc - 1]) {
 					tmp.push(loc - 1);
 				}
-				if (loc * 1 <= 100000 && !visited[loc * 2]) {
+				if (loc * 2 <= 100000 && !visited[loc * 2]) {
 					tmp.push(loc * 2);
 				}
 			}
