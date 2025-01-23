@@ -7,39 +7,32 @@ int ans;
 int visited[200002];
 
 void solve() {
-	queue<int> q;
-	q.push(n);
-	while (true) {
-		queue<int> tmp;
-		int flag = 0;
-		while (!q.empty()) {
-			int loc = q.front();
-			q.pop();
-			if (visited[loc]) {
-				continue;
-			}
-			visited[loc] = 1;
-			if (loc == k) {
-				flag = 1;
-				break;
-			}
-			else {
-				if (loc + 1 <= 100000 && !visited[loc + 1]) {
-					tmp.push(loc + 1);
-				}
-				if (loc - 1 >= 0 && !visited[loc - 1]) {
-					tmp.push(loc - 1);
-				}
-				if (loc * 2 <= 100000 && !visited[loc * 2]) {
-					tmp.push(loc * 2);
-				}
-			}
+	queue<pair<int, int>> q;
+	q.push({ n, 0 });
+
+	while (!q.empty()) {
+		int loc = q.front().first;
+		int time = q.front().second;
+		q.pop();
+		if (visited[loc]) {
+			continue;
 		}
-		if (flag) {
+		visited[loc] = 1;
+		if (loc == k) {
+			ans = time;
 			break;
 		}
-		q = tmp;
-		ans++;
+		else {
+			if (loc + 1 <= 100000 && !visited[loc + 1]) {
+				q.push({ loc + 1 , time + 1 });
+			}
+			if (loc - 1 >= 0 && !visited[loc - 1]) {
+				q.push({ loc - 1 , time + 1 });
+			}
+			if (loc * 2 <= 100000 && !visited[loc * 2]) {
+				q.push({ loc * 2 , time + 1 });
+			}
+		}
 	}
 }
 
