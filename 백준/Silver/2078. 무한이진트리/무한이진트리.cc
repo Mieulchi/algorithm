@@ -7,12 +7,12 @@ int l, r;
 void solve() {
 	while (n != 1 && m != 1) {
 		if (n > m) {
-			n -= m;
-			l++;
+			l += n / m;
+			n %= m;
 		}
 		else {
-			m -= n;
-			r++;
+			r += m / n;
+			m %= n;
 		}
 	}
 	if (n == 1) {
