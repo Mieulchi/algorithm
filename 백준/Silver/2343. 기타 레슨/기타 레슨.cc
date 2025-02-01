@@ -4,10 +4,11 @@ using namespace std;
 int n, m;
 int arr[100000];
 int sum;
+int mmax;
 int ans;
 
 void solve() {
-	int left = arr[0], right = sum;
+	int left = mmax, right = sum;
 	ans = sum;
 	while (left <= right) {
 		int mid = (left + right) / 2;
@@ -16,10 +17,6 @@ void solve() {
 		int tmp = 0;
 		int flag = 0;
 		for (int i = 0; i < n - 1; i++) {
-			if (arr[i] > mid) {
-				flag = 1;
-				break;
-			}
 			tmp += arr[i];
 			if (i == n - 2) {
 				if (tmp + arr[n - 1] <= mid) {
@@ -34,11 +31,6 @@ void solve() {
 				cnt++;
 				tmp = 0;
 			}
-
-		}
-		if (flag) {
-			left = mid + 1;
-			continue;
 		}
 		if (cnt > m) {
 			left = mid + 1;
@@ -60,6 +52,9 @@ int main() {
 	for (int i = 0; i < n; i++) {
 		cin >> arr[i];
 		sum += arr[i];
+		if (arr[i] > mmax) {
+			mmax = arr[i];
+		}
 	}
 
 	solve();
