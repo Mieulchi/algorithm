@@ -1,85 +1,83 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
-int mat[6][6];
-int result[6][6];
-int tmp[6][6];
-vector<int> v;
 
-void sqr(int n) {
-	for (int j = 0; j < n; j++) {
-		for (int k = 0; k < n; k++) {
-			int innertmp = 0;
-			for (int l = 0; l < n; l++) {
-				innertmp += tmp[j][l] * tmp[l][k];
+long long n, b;
+int mat[5][5];
+int result[5][5];
+int tmp[5][5];
+
+void matOnce() {
+	int tmp[5][5] = { 0 };
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			for (int k = 0; k < n; k++) {
+				tmp[i][j] += result[i][k] * mat[k][j];
 			}
-				result[j][k] = innertmp % 1000;
+			tmp[i][j] %= 1000;
 		}
 	}
-
-	for (int j = 0; j < n; j++) {
-		for (int k = 0; k < n; k++) {
-			tmp[j][k] = result[j][k];
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			result[i][j] = tmp[i][j];
 		}
 	}
 }
 
-void once(int n) {
-	for (int j = 0; j < n; j++) {
-		for (int k = 0; k < n; k++) {
-			int innertmp = 0;
-			for (int l = 0; l < n; l++) {
-				innertmp += tmp[j][l] * mat[l][k];
+void matSquare() {
+	int tmp[5][5] = { 0 };
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			for (int k = 0; k < n; k++) {
+				tmp[i][j] += result[i][k] * result[k][j];
 			}
-				result[j][k] = innertmp % 1000;
+			tmp[i][j] %= 1000;
 		}
 	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			result[i][j] = tmp[i][j];
+		}
+	}
+}
 
-	for (int j = 0; j < n; j++) {
-		for (int k = 0; k < n; k++) {
-			tmp[j][k] = result[j][k];
+void solve() {
+	string s = "";
+	while (b > 1) {
+		if (b % 2 == 1) {
+			s += '1';
+			b--;
+		}
+		s += '0';
+		b /= 2;
+	}
+
+	for (int i = s.length() - 1; i >= 0; i--) {
+		if (s[i] == '1') {
+			matOnce();
+		}
+		else {
+			matSquare();
 		}
 	}
 }
 
 int main() {
-	int n;
-	long long b;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	cin >> n >> b;
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			cin >> mat[i][j];
 			mat[i][j] %= 1000;
-			tmp[i][j] = mat[i][j];
 			result[i][j] = mat[i][j];
-			if (result[i][j] > 1000) {
-				result[i][j] %= 1000;
-			}
-
 		}
 	}
 
-	
-	while (b > 1) {
-		if (b % 2 == 1) {
-			v.push_back(1);
-			b--;
-		}
-		v.push_back(b % 2);
-		b /= 2;
+	if (n > 1) {
+		solve();
 	}
-
-	for (int i = v.size() - 1; i >= 0; i--) {
-		if (v[i] == 1) {
-			once(n);
-		}
-		else {
-			sqr(n);
-		}
-	}
-
-
 
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
