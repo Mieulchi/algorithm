@@ -7,9 +7,6 @@ long long ans;
 long long a, b;
 
 void solve() {
-	if (n - m < m) {
-		m = n - m;
-	}
 	long long i = 5;
 	while (i <= n) {
 		a = a + (n / i) - (n - m) / i - m / i;
