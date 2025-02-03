@@ -4,28 +4,23 @@ using namespace std;
 
 long long n, m;
 long long ans;
+long long a, b;
 
 void solve() {
-	long long a5 = 0, b5 = 0;
-	long long a2 = 0, b2 = 0;
 	if (n - m < m) {
 		m = n - m;
 	}
 	long long i = 5;
 	while (i <= n) {
-		a5 += (n / i) - (n - m) / i;
-		b5 += m / i;
+		a = a + (n / i) - (n - m) / i - m / i;
 		i *= 5;
 	}
-
 	i = 2;
 	while (i <= n) {
-		a2 += (n / i) - (n - m) / i;
-		b2 += m / i;
+		b = b + (n / i) - (n - m) / i - m / i;
 		i *= 2;
 	}
-
-	ans = min(a5 - b5, a2 - b2);
+	ans = min(a, b);
 }
 
 int main() {
