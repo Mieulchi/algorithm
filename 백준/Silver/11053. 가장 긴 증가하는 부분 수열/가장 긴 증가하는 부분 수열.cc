@@ -1,33 +1,37 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
-int sq[1001];
-int dp[1001];
+int n;
+int arr[1000];
+int lis[1000];
+int idx;
 
-int main() {
-	int n;
-	cin >> n;
-
-	int length = 0;
-
-	for (int i = 0; i < n; i++) {
-		cin >> sq[i];
-	}
-
-	int result = 0;
-	for (int i = 0; i < n; i++) {
-		dp[i] = 1;
-		int max = 0;
-		for (int j = 0; j < i; j++) {
-			if (sq[j] < sq[i] && dp[j] > max) {
-				max = dp[j];
+void solve() {
+	lis[0] = arr[0];
+	for (int i = 1; i < n; i++) {
+		if (arr[i] > lis[idx]) {
+			lis[++idx] = arr[i];
+		}
+		else {
+			int tmpindex = lower_bound(lis, lis + idx, arr[i]) - lis;
+			if (lis[tmpindex] > arr[i]) {
+				lis[tmpindex] = arr[i];
 			}
 		}
-		dp[i] += max;
-		if (dp[i] > result) {
-			result = dp[i];
-		}
+	}
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
 	}
 
-	cout << result;
+	solve();
+
+	cout << idx + 1;
 }
