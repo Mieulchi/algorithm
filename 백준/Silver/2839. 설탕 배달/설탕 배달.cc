@@ -5,11 +5,11 @@ int n;
 int dp[5001];
 
 void recursive(int i) {
-	if (i + 3 <= 5000 && (!dp[i + 3] || dp[i + 3] > dp[i] + 1)) {
+	if (i + 3 <= n && (!dp[i + 3] || dp[i + 3] > dp[i] + 1)) {
 		dp[i + 3] = dp[i] + 1;
 		recursive(i + 3);
 	}
-	if (i + 5 <= 5000 && (!dp[i + 5] || dp[i + 5] > dp[i] + 1)) {
+	if (i + 5 <= n && (!dp[i + 5] || dp[i + 5] > dp[i] + 1)) {
 		dp[i + 5] = dp[i] + 1;
 		recursive(i + 5);
 	}
