@@ -5,17 +5,14 @@ int n;
 int ans;
 
 void solve() {
-	for (int i = 1; i < n; i++) {
-		int sum = 0;
-		int j = i;
-		while (sum < n) {
-			sum += j;
-			j++;
-			if (sum == n) {
-				ans++;
-				break;
-			}
+	int sum = 0;
+	int i = 1;
+	while (sum < n) {
+		sum += i;
+		if ((n - sum) % i == 0) {
+			ans++;
 		}
+		i++;
 	}
 }
 
@@ -24,7 +21,7 @@ int main() {
 	cin.tie(NULL);
 
 	cin >> n;
-	ans = 1;
+
 	solve();
 
 	cout << ans;
