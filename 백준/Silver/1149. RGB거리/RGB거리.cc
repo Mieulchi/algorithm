@@ -1,69 +1,30 @@
 #include <iostream>
-#include <cmath>
+#include <algorithm>
 using namespace std;
 
-int r[1001];
-int g[1001];
-int b[1001];
+int n;
+int dp[1000][3];
+int ans;
+
+void solve() {
+	cin >> dp[0][0] >> dp[0][1] >> dp[0][2];
+	int r, g, b;
+	for (int i = 1; i < n; i++) {
+		cin >> r >> g >> b;
+		dp[i][0] += min(dp[i - 1][1], dp[i - 1][2]) + r;
+		dp[i][1] += min(dp[i - 1][0], dp[i - 1][2]) + g;
+		dp[i][2] += min(dp[i - 1][0], dp[i - 1][1]) + b;
+	}
+	ans = min({ dp[n - 1][0], dp[n - 1][1], dp[n - 1][2] });
+}
 
 int main() {
-	int k;
-	cin >> k;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-	for (int i = 0; i < k; i++) {
-		cin >> r[i] >> g[i] >> b[i];
-	}
+	cin >> n;
 
-	int sum[3] = { 0 };
-	int min[3] = { 0 };
+	solve();
 
-	min[0] = r[0];
-	min[1] = g[0];
-	min[2] = b[0];
-	for (int i = 1; i < k; i++) {
-		sum[0] = sum[1] = sum[2] = 0;
-
-		if (min[0] < min[1]) {
-			sum[2] += min[0] + b[i];
-		}
-		else {
-			sum[2] += min[1] + b[i];
-		}
-		if (min[1] < min[2]) {
-			sum[0] += min[1] + r[i];
-		}
-		else {
-			sum[0] += min[2] + r[i];
-		}
-		if (min[2] < min[0]) {
-			sum[1] += min[2] + g[i];
-		}
-		else {
-			sum[1] += min[0] + g[i];
-		}
-
-		min[0] = sum[0];
-		min[1] = sum[1];
-		min[2] = sum[2];
-	}
-
-	int result = 0;
-	if (min[0] < min[1]) {
-		if (min[0] < min[2]) {
-			result = min[0];
-		}
-		else {
-			result = min[2];
-		}
-	}
-	else {
-		if (min[1] < min[2]) {
-			result = min[1];
-		}
-		else {
-			result = min[2];
-		}
-	}
-
-	cout << result;
+	cout << ans;
 }
