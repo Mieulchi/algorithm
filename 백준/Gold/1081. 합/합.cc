@@ -3,7 +3,6 @@
 using namespace std;
 
 int il, iu;
-string l, u;
 long long dp[11];
 long long ans;
 
@@ -15,6 +14,29 @@ long long pow(int k) {
 	return res;
 }
 
+long long getSum(string s) {
+	int len = s.length();
+	int tmp = stoi(s);
+	int op;
+	long long sum = 0;
+	for (int i = 0; i < len - 1; i++) {
+		op = s[i] - '0';
+		sum += op * dp[len - i - 1];
+		if (op) {
+			for (int j = 0; j < op; j++) {
+				sum += j * pow(len - i - 1);
+			}
+		}
+		sum += op * (tmp - op * pow(len - i - 1) + 1);
+		tmp -= op * pow(len - i - 1);
+	}
+	op = s[len - 1] - '0';
+	for (int i = 0; i <= op; i++) {
+		sum += i;
+	}
+	return sum;
+}
+
 void solve() {
 	dp[1] = 45;
 	for (int i = 2; i < 11; i++) {
@@ -22,45 +44,9 @@ void solve() {
 	}
 
 	il -= il ? 1 : 0;
-	u = to_string(iu);
-	l = to_string(il);
 
-	int len = u.length();
-	int tmp = stoi(u);
-	int op;
-	for (int i = 0; i < len - 1; i++) {
-		op = u[i] - '0';
-		ans += op * dp[len - i - 1];
-		if (op) {
-			for (int j = 0; j < op; j++) {
-				ans += j * pow(len - i - 1);
-			}
-		}
-		ans += op * (tmp - op * pow(len - i - 1) + 1);
-		tmp -= op * pow(len - i - 1);
-	}
-	op = u[len - 1] - '0';
-	for (int i = 0; i <= op; i++) {
-		ans += i;
-	}
-
-	len = l.length();
-	tmp = stoi(l);
-	for (int i = 0; i < len - 1; i++) {
-		op = l[i] - '0';
-		ans -= op * dp[len - i - 1];
-		if (op) {
-			for (int j = 0; j < op; j++) {
-				ans -= j * pow(len - i - 1);
-			}
-		}
-		ans -= op * (tmp - op * pow(len - i - 1) + 1);
-		tmp -= op * pow(len - i - 1);
-	}
-	op = l[len - 1] - '0';
-	for (int i = 0; i <= op; i++) {
-		ans -= i;
-	}
+	ans += getSum(to_string(iu));
+	ans -= getSum(to_string(il));
 }
 
 int main() {
