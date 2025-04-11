@@ -7,25 +7,20 @@ using namespace std;
 int n;
 map<long long, int> m;
 long long ans;
-long long maxn;
-int maxc;
+
+bool cmp(pair<long long, int> p1, pair<long long, int> p2) {
+	if (p1.second == p2.second) {
+		return p1.first < p2.first;
+	}
+	else {
+		return p1.second > p2.second;
+	}
+}
 
 void solve() {
-	long long t;
-	for (int i = 0; i < n; i++) {
-		cin >> t;
-		m[t]++;
-		if (m[t] > maxc) {
-			maxc = m[t];
-			maxn = t;
-		}
-		else if (m[t] == maxc) {
-			if (t < maxn) {
-				maxn = t;
-			}
-		}
-	}
-	ans = maxn;
+	vector<pair<long long, int>> v(m.begin(), m.end());
+	sort(v.begin(), v.end(), cmp);
+	ans = v[0].first;
 }
 
 int main() {
@@ -33,6 +28,11 @@ int main() {
 	cin.tie(NULL);
 
 	cin >> n;
+	long long t;
+	for (int i = 0; i < n; i++) {
+		cin >> t;
+		m[t]++;
+	}
 	solve();
 	cout << ans;
 }
