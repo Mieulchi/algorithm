@@ -5,7 +5,7 @@ using namespace std;
 int s;
 string str;
 int ans;
-int dp[3001][3001];
+int dp[3000][3001];
 
 void solve() {
 	for (int i = 0; i < 26; i++) {
