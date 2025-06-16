@@ -2,13 +2,13 @@
 using namespace std;
 
 int p, t, n;
-int arr[10000][80];
-int sizes[10000];
+int arr[2200][80];
+int sizes[2200];
 
 void solve() {
 	arr[0][0] = 1;
 	sizes[0] = 1;
-	for (int i = 1; i < 10000; i++) {
+	for (int i = 1; i < 2200; i++) {
 		for (int j = 0; j < sizes[i - 1]; j++) {
 			arr[i][j] = arr[i - 1][j];
 		}
