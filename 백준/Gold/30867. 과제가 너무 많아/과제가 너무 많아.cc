@@ -4,24 +4,19 @@ using namespace std;
 
 int l, n;
 string s;
-int cnt[200001];
 
 void solve() {
+	int cnt = 0;
 	for (int i = 0; i < l; i++) {
 		if (s[i] == 'w') {
-			if (i) {
-				cnt[i] = cnt[i - 1] + 1;
-			}
-			else {
-				cnt[i]++;
-			}
+			cnt++;
 		}
 		else if (s[i] == 'h') {
-			if (i) {
-				cnt[i] = cnt[i - 1];
-			}
-			int idx = i - min(cnt[i], n);
+			int idx = i - min(cnt, n);
 			swap(s[i], s[idx]);
+		}
+		else {
+			cnt = 0;
 		}
 	}
 }
