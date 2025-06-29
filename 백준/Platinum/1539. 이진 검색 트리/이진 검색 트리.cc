@@ -1,11 +1,11 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <set>
 #include <algorithm>
 using namespace std;
 
 int n;
-map<int, pair<int, int>> m;
+unordered_map<int, pair<int, int>> m;
 int level[250000];
 set<int> s;
 long long ans;
