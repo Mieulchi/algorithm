@@ -2,28 +2,24 @@
 using namespace std;
 
 int N;
-int now = 2;
-
-void toggle() {
-	now = now == 2 ? 1 : 2;
-}
 
 void solve() {
+    int now = 2;
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= i; j++) {
 			cout << now << ' ' << j << '\n';
 		}
-		toggle();
+		now = now == 2 ? 1 : 2;
 	}
 	for (int i = 1; i <= N; i++) {
 		cout << now << ' ' << i << '\n';
 	}
-	toggle();
+	now = now == 2 ? 1 : 2;
 	for (int i = N; i >= 1; i--) {
 		for (int j = N - i + 1; j <= N; j++) {
 			cout << now << ' ' << j << '\n';
 		}
-		toggle();
+		now = now == 2 ? 1 : 2;
 	}
 }
 
