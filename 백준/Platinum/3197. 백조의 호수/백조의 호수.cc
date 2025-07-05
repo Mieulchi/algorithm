@@ -28,7 +28,7 @@ bool f() {
 			q[i].pop();
 			int r = front.first;
 			int c = front.second;
-			if (visited[r][c] && (visited[r][c] && arr[r][c] == (i ? 'L' : 'l'))) {
+			if (visited[r][c] && arr[r][c] == (i ? 'L' : 'l')) {
 				continue;
 			}
 			visited[r][c] = 1;
