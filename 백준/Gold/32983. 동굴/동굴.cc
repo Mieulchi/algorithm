@@ -13,14 +13,10 @@ void solve() {
 	q.push({ sr, sc });
 	int pal = c;
 	while (!q.empty()) {
-		queue <pair<int, int>> tmp;
-		while (!q.empty()) {
-			tmp.push({ q.front() });
+		int size = q.size();
+		while (size--) {
+			pair<int, int> front = q.front();
 			q.pop();
-		}
-		while (!tmp.empty()) {
-			pair<int, int> front = tmp.front();
-			tmp.pop();
 			int r = front.first;
 			int c = front.second;
 			if (visited[r][c]) {
