@@ -1,29 +1,26 @@
 #include <iostream>
-#include <climits>
 using namespace std;
 
-int a, b, c;
-long long ans;
+long long a, b, c;
+long long ans = 1;
 
 void solve() {
-	ans = 1;
-	long long op = a % c;
-	while (b) {
-		if (b % 2) {
-			ans = (ans * op) % c;
+	int n = 0;
+	long long base = a;
+	while ((1LL << n) <= b) {
+		if ((b >> n) & 1) {
+			ans = (ans * base) % c;
 		}
-		op = (op * op) % c;
-		b /= 2;
+		base = (base * base) % c;
+        n++;
 	}
 }
 
 int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
-
+	
 	cin >> a >> b >> c;
-
 	solve();
-
 	cout << ans;
 }
