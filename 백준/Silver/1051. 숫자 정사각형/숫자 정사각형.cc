@@ -1,48 +1,39 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 int n, m;
-int square[50][50];
+int arr[50][50];
 int ans;
 
 void solve() {
-	while (ans > 1) {
-		int flag = 0;
-		for (int i = 0; i <= n - ans; i++) {
-			for (int j = 0; j <= m - ans; j++) {
-				if (square[i][j] == square[i][j + ans - 1] && square[i][j] == square[i + ans - 1][j] && square[i][j] == square[i + ans - 1][j + ans - 1]) {
-					flag = 1;
-					break;
-				}
-			}
-			if (flag) {
-				break;
-			}
-		}
-		if (flag) {
-			break;
-		}
-		ans--;
-	}
+    ans = 1;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            int t = arr[i][j];
+            for (int k = 1; k <= min(n - i - 1, m - j - 1); k++) {
+                if (arr[i + k][j] == t && arr[i][j + k] == t && arr[i + k][j + k] == t) {
+                    if ((k + 1) * (k + 1) > ans) {
+                        ans = (k + 1) * (k + 1);
+                    }
+                }
+            }
+        }
+    }
 }
 
-
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	cin >> n >> m;
-	n > m ? ans = m : ans = n;
-
-	for (int i = 0; i < n; i++) {
-		string s;
-		cin >> s;
-		for (int j = 0; j < m; j++) {
-			square[i][j] = s[j] - '0';
-		}
-	}
-
-	solve();
-
-	cout << ans * ans;
+    cin >> n >> m;
+    for (int i = 0; i < n; i++) {
+        string s;
+        cin >> s;
+        for (int j = 0; j < m; j++) {
+            arr[i][j] = s[j] - '0';
+        }
+    }
+    solve();
+    cout << ans;
 }
