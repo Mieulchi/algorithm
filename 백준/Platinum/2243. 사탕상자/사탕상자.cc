@@ -1,36 +1,39 @@
 #include <iostream>
-#define SIZE 1000001
 using namespace std;
 
-int n, m;
+#define SIZE 1000000
+
+int n;
 int tree[4000004];
-int ans;
 
-void update(int node, int s, int e, int a, int b) {
-	if (s > a || e < a) {
-		return;
-	}
-	tree[node] += b;
+int find(int node, int s, int e, int b) {
+	tree[node]--;
 	if (s == e) {
-		return;
+		return s;
 	}
 	int mid = (s + e) / 2;
-	update(node * 2, s, mid, a, b);
-	update(node * 2 + 1, mid + 1, e, a, b);
-}
-
-void myfind(int node, int s, int e, int b) {
-	if (s == e) {
-		ans = s;
-		return;
-	}
-	int mid = (s + e) / 2;
+	int ret;
 	if (tree[node * 2] >= b) {
-		myfind(node * 2, s, mid, b);
+		ret = find(node * 2, s, mid, b);
 	}
 	else {
-		myfind(node * 2 + 1, mid + 1, e, b - tree[node * 2]);
+		ret = find(node * 2 + 1, mid + 1, e, b - tree[node * 2]);
 	}
+	return ret;
+}
+
+void add(int node, int s, int e, int b, int c) {
+	if (s > b || e < b) {
+		return;
+	}
+    
+	tree[node] += c;
+    if (s == e) {
+		return;
+	}
+	int mid = (s + e) / 2;
+	add(node * 2, s, mid, b, c);
+	add(node * 2 + 1, mid + 1, e, b, c);
 }
 
 int main() {
@@ -39,17 +42,15 @@ int main() {
 
 	cin >> n;
 	int a, b, c;
-	for (int i = 0; i < n; i++) {
+	while (n--) {
 		cin >> a;
 		if (a == 1) {
 			cin >> b;
-			myfind(1, 1, SIZE, b);
-			update(1, 1, SIZE, ans, -1);
-			cout << ans << '\n';
+			cout << find(1, 1, SIZE, b) << '\n';
 		}
 		else {
 			cin >> b >> c;
-			update(1, 1, SIZE, b, c);
+			add(1, 1, SIZE, b, c);
 		}
 	}
 }
