@@ -1,30 +1,26 @@
-#include <iostream>
-#include <algorithm>
-using namespace std;
+#include <stdio.h>
 
-int n;
-int dp[1000][3];
-int ans;
-
-void solve() {
-	cin >> dp[0][0] >> dp[0][1] >> dp[0][2];
-	int r, g, b;
-	for (int i = 1; i < n; i++) {
-		cin >> r >> g >> b;
-		dp[i][0] += min(dp[i - 1][1], dp[i - 1][2]) + r;
-		dp[i][1] += min(dp[i - 1][0], dp[i - 1][2]) + g;
-		dp[i][2] += min(dp[i - 1][0], dp[i - 1][1]) + b;
-	}
-	ans = min({ dp[n - 1][0], dp[n - 1][1], dp[n - 1][2] });
-}
+int arr[3][1000];
+int dp[3][1000];
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-
-	cin >> n;
-
-	solve();
-
-	cout << ans;
+    int n;
+    scanf("%d", &n);
+    
+    for(int i=0;i<n;i++) {
+        scanf("%d %d %d", &arr[0][i], &arr[1][i], &arr[2][i]);
+        if (i) {
+            dp[0][i] = arr[0][i] + (dp[2][i - 1] > dp[1][i - 1] ? dp[1][i - 1] : dp[2][i - 1]);
+            dp[1][i] = arr[1][i] + (dp[2][i - 1] > dp[0][i - 1] ? dp[0][i - 1] : dp[2][i - 1]);
+            dp[2][i] = arr[2][i] + (dp[1][i - 1] > dp[0][i - 1] ? dp[0][i - 1] : dp[1][i - 1]);
+        }
+        else {
+            dp[0][0] = arr[0][0];
+            dp[1][0] = arr[1][0];
+            dp[2][0] = arr[2][0];
+        }
+    }
+    
+    printf("%d", dp[1][n - 1] > dp[0][n - 1] ? (dp[2][n - 1] > dp[0][n - 1] ? dp[0][n - 1] : dp[2][n - 1] ): (dp[2][n - 1] > dp[1][n - 1] ? dp[1][n - 1] : dp[2][n - 1]));
+    
 }
