@@ -1,50 +1,46 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 int n;
-int useHp[20];
-int getHappy[20];
-
-int result[20][101];
+int a[20];
+int b[20];
+int dp[20][101];
 int ans;
 
 void solve() {
-	if (useHp[0] < 100) {
-		result[0][100 - useHp[0]] = getHappy[0];
-	}
-	for (int i = 1; i < n; i++) {
-		for (int j = 1; j <= 100; j++) {
-			if (result[i - 1][j] || j == 100) {
-				result[i][j] = result[i - 1][j];
-				if (j - useHp[i] > 0) {
-					if (result[i - 1][j] + getHappy[i] > result[i][j - useHp[i]]) {
-						result[i][j - useHp[i]] = result[i - 1][j] + getHappy[i];
-					}
-				}
-			}
-		}
-	}
+    for (int i = 0; i < n; i++) {
+        if (100 - a[i] > 0) {
+            dp[i][100 - a[i]] = b[i];
+        }
+        if (i) {
+            for (int j = 1; j < 101; j++) {
+                if (dp[i - 1][j]) {
+                    dp[i][j] = max(dp[i][j], dp[i - 1][j]);
+                    if (j - a[i] > 0) {
+                        dp[i][j - a[i]] = max(dp[i][j - a[i]], dp[i - 1][j] + b[i]);
+                    }
+                }
+            }
+        }
+    }
+    for (int i = 100; i > 0; i--) {
+        if (dp[n - 1][i] > ans) {
+            ans = dp[n - 1][i];
+        }
+    }
 }
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-
-	cin >> n;
-
-	for (int i = 0; i < n; i++) {
-		cin >> useHp[i];
-	}
-	for (int i = 0; i < n; i++) {
-		cin >> getHappy[i];
-	}
-
-	solve();
-
-	for (int i = 1; i <= 100; i++) {
-		if (result[n - 1][i] > ans) {
-			ans = result[n - 1][i];
-		}
-	}
-	cout << ans;
-}
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    for (int i = 0; i < n; i++) {
+        cin >> b[i];
+    }
+    solve();
+    cout << ans;
+}   
