@@ -1,28 +1,39 @@
 #include <iostream>
-#include <vector>
+#include <queue>
 using namespace std;
 
 int n, m;
 char arr[1000][1000];
-int visited[1000][1000];
 int r, c;
 string s;
 char ans[1000][1000];
 
-void dfs(int r, int c, char key) {
-    ans[r][c] = '.';
-    visited[r][c] = 1;
-    if (r + 1 < n && !visited[r + 1][c] && arr[r + 1][c] == key) {
-        dfs(r + 1, c, key);
-    }
-    if (r - 1 >= 0 && !visited[r - 1][c] && arr[r - 1][c] == key) {
-        dfs(r - 1, c, key);
-    }
-    if (c + 1 < m && !visited[r][c + 1] && arr[r][c + 1] == key) {
-        dfs(r, c + 1, key);
-    }
-    if (c - 1 >= 0 && !visited[r][c - 1] && arr[r][c - 1] == key) {
-        dfs(r, c - 1, key);
+void bfs(char key) {
+    queue<pair<int, int>> q;
+    q.push({ r, c });
+    while (!q.empty()) {
+        int size = q.size();
+        while (size--) {
+            pair<int, int> f = q.front();
+            q.pop();
+            int r = f.first;
+            int c = f.second;
+            if (ans[r][c] != '.') {
+                ans[r][c] = '.';
+                if (r + 1 < n && ans[r + 1][c] != '.' && arr[r + 1][c] == key) {
+                    q.push({ r + 1, c });
+                }
+                if (r - 1 >= 0 && ans[r - 1][c] != '.' && arr[r - 1][c] == key) {
+                    q.push({ r - 1, c });
+                }
+                if (c + 1 < m && ans[r][c + 1] != '.' && arr[r][c + 1] == key) {
+                    q.push({ r, c + 1 });
+                }
+                if (c - 1 >= 0 && ans[r][c - 1] != '.' && arr[r][c - 1] == key) {
+                    q.push({ r, c - 1 });
+                }
+            }
+        }
     }
 }
 
@@ -47,7 +58,7 @@ void solve() {
             c++;
         }
         else {
-            dfs(r, c, arr[r][c]);
+            bfs(arr[r][c]);
         }
     }
     ans[r][c] = '.';
