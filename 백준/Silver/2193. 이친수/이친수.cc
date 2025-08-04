@@ -1,27 +1,14 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
+#include <stdio.h>
 
-int n;
-
-long long fib[90];
-void solve() {
-	for (int i = 3; i <= n; i++) {
-		fib[i] = fib[i - 1] + fib[i - 2];
-	}
-}
+long long dp[91][2];
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-
-	cin >> n;
-	fib[1] = 1;
-	fib[2] = 1;
-	if (n > 2) {
-		solve();
-	}
-
-	cout << fib[n];
+    int n;
+    scanf("%d", &n);
+    dp[1][1] = 1;
+    for (int i = 2; i <= n; i++) {
+        dp[i][0] = dp[i - 1][0] + dp[i - 1][1];
+        dp[i][1] = dp[i - 1][0];
+    }
+    printf("%lld", dp[n][1] + dp[n][0]);
 }
