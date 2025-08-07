@@ -1,46 +1,30 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
-int n;
 string ans;
 
-void solve() {
-	int count = 1;
-
-	while (n != 1) {
-		int tmp = n / -2;
-		if (n - tmp * -2 < 0) {
-			tmp++;
-		}
-		if (n - tmp * -2 == 1) {
-			ans += '1';
-		}
-		else {
-			ans += '0';
-		}
-		n = tmp;
-	}
-	ans += '1';
+int abs(int i) {
+    return i > 0 ? i : i * -1;
 }
-
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    cin >> n;
+    if (!n) {
+        ans = '0';
+    }
+    while (n) {
+        ans += abs(n) % 2 ? '1' : '0';
+        
+        int prev = n;
+        n /= -2;
+        if (n * -2 > prev) {
+            n++;
+        }
+    }
 
-	cin >> n;
-
-	if (n == 0) {
-		ans = "0";
-	}
-	else {
-		solve();
-	}
-
-	string tmp;
-	for (int i = ans.size() - 1; i >= 0; i--) {
-		tmp += ans[i];
-	}
-
-	cout << tmp;
+    for (int i = ans.length() - 1; i >= 0; i--) {
+        cout << ans[i];
+    }
 }
