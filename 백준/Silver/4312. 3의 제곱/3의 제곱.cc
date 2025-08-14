@@ -5,6 +5,7 @@ using namespace std;
 
 long long n;
 vector<string> v;
+string mem[64];
 
 string pow(int i) {
 	string s = "1";
@@ -19,9 +20,7 @@ string pow(int i) {
 			else {
 				t = to_string(tmp % 10) + t;
 			}
-
 			prev = tmp / 10;
-			
 		}
 		if (prev) {
 			t = to_string(prev) + t;
@@ -37,14 +36,22 @@ void solve() {
 	v.clear();
 	for (long long i = 0; i < 64; i++) {
 		if ((n >> i) & 1) {
-			v.push_back(pow(i));
+			v.push_back(mem[i]);
 		}
+	}
+}
+
+void p() {
+	for (int i = 0; i < 64; i++) {
+		mem[i] = pow(i);
 	}
 }
 
 int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
+
+	p();
 
 	while (true) {
 		cin >> n;
