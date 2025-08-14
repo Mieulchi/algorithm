@@ -1,68 +1,39 @@
 #include <iostream>
-#include <queue>
+#include <vector>
 using namespace std;
 
-struct TreeNode {
-	int key;
-	TreeNode* left, * right;
-};
+vector<int> v;
+int n;
 
-TreeNode* getNode(int data) {
-	TreeNode* tmp = new TreeNode;
-	tmp->key = data;
-	tmp->right = NULL;
-	tmp->left = NULL;
-
-	return tmp;
+void f(int s, int e) {
+	if (s > e) {
+		return;
+	}
+	if (s == e) {
+		cout << v[s] << '\n';;
+		return;
+	}
+	int i;
+	for (i = s; i <= e; i++) {
+		if (v[i] > v[s]) {
+			break;
+		}
+	}
+	f(s + 1, i - 1);
+	f(i, e);
+	cout << v[s] << '\n';
 }
 
-void insert_node(TreeNode* node, int data) {
-	if (node ->key > data) { 
-		if (node->left == NULL) {
-			node->left = getNode(data);
-			return;
-		}
-		else {
-			insert_node(node->left, data);
-		}
+void solve() {
+	while (cin >> n) {
+		v.push_back(n);
 	}
-	else if (node->key < data) {
-		if (node->right == NULL) {
-			node->right = getNode(data);
-			return;
-		}
-		else {
-			insert_node(node->right, data);
-		}
-	}
-}
-
-void gndnl(TreeNode* root) {
-	if (root->left) {
-		gndnl(root->left);
-	}
-	if (root->right) {
-		gndnl(root->right);
-	}
-	cout << root->key << '\n';
+	f(0, v.size() - 1);
 }
 
 int main() {
-	TreeNode* root = NULL; 
-	int key;
-	while (cin >> key){	
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
-		if (root == NULL) {
-			root = new TreeNode;
-			root->left = NULL;
-			root->right= NULL;
-			root->key = key;
-		}
-		else {
-			insert_node(root, key);
-		}
-	}
-
-
-	gndnl(root);
+	solve();
 }
