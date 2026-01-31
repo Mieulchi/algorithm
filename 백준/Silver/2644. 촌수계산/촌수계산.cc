@@ -1,42 +1,35 @@
 #include <iostream>
-#include <queue>
+#include <vector>
 using namespace std;
 
 int n, a, b, m, ans;
 vector<int> v[101];
 int visited[101];
 
-void solve() {
-    queue<int> q;
-    q.push(a);
+void dfs(int node, int depth) {
+    if (visited[node]) {
+        return;
+    }
+    visited[node] = 1;
+    if (node == b) {
+        if (!ans || depth < ans) {
+            ans = depth;
+        }
+        visited[node] = 0;
+        return;
+    }
+    for (int i = 0; i < v[node].size(); ++i) {
+        dfs(v[node][i], depth + 1);
+    }
+    visited[node] = 0;
+}
 
-    int cnt = 0;
-    while (!q.empty()) {
-        int size = q.size();
-        while (size--) {
-            int front = q.front();
-            if (front == b) {
-                ans = cnt;
-                break;
-            }
-            q.pop();
-            if (!visited[front]) {
-                visited[front] = 1;
-                for (int i = 0; i < v[front].size(); ++i) {
-                    if (!visited[v[front][i]]) {
-                        q.push(v[front][i]);
-                    }
-                }
-            }
-        }
-        if (ans) {
-            break;
-        }
-        ++cnt;
+void solve() {
+    visited[a] = 1;
+    for (int i = 0; i < v[a].size(); ++i) {
+        dfs(v[a][i], 1);
     }
-    if (!ans) {
-        ans = -1;
-    }
+    if (!ans) { ans = -1; }
 }
 
 int main() {
