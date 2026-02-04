@@ -29,14 +29,14 @@ int main() {
 		long long mod2 = 1, mod3 = 1;
 
 		int times = MOD - 2;
-		while (times > 0) {
-			if (times % 2 == 1) {
+		while (times) {
+			if ((times & 1) == 1) {
 				mod2 = (mod2 * op2) % MOD;
 				mod3 = (mod3 * op3) % MOD;
 			}
 			op2 = (op2 * op2) % MOD;
 			op3 = (op3 * op3) % MOD;
-			times /= 2;
+			times >>= 1;
 		}
 
 		long long result = op1;
