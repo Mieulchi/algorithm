@@ -16,31 +16,37 @@ public class Main {
     static int [] a = new int [101];
     static int [] b = new int [101];
 
-    //dp[k][j] = k초 지났고 보유량이 j일 때 가능한 최대 클릭당 수확량
-    static int [][] dp = new int [101][5002];
+    //dp[k][j] = k초 지났고
+    static int [][] dp = new int [101][5001];
 
     static int ans;
 
     static void solve() {
 
-        dp[0][0] = 1;
+        for (int i = 0; i <= K; ++i) {
+            for (int j = 0; j < 5001; ++j) {
+                dp[i][j] = -1;
+            }
+        }
+
+        dp[0][1] = 0;
+
         for (int i = 1; i <= K; i++) {
-            for (int j = 5001; j >= 0; --j) {
-                if (dp[i - 1][j] > 0) {
-                    dp[i][j + dp[i - 1][j]] = Math.max(dp[i][j + dp[i - 1][j]], dp[i - 1][j]);
+            for (int j = 5000; j >= 0; --j) {
+                if (dp[i - 1][j] >= 0) {
+                    dp[i][j] = j + dp[i - 1][j];
                     for (int k = 1; k <= N; ++k) {
-                        if (j >= a[k] && dp[i - 1][j] > 0) {
-                            dp[i][j - a[k]] = Math.max(dp[i][j - a[k]], dp[i - 1][j] + b[k]);
+                        if (dp[i - 1][j] >= a[k]) {
+                            dp[i][j + b[k]] = Math.max(dp[i][j + b[k]], dp[i - 1][j] - a[k]);
                         }
                     }
                 }
             }
         }
 
-        for (int i = 5001; i >= 0; --i) {
-            if (dp[K][i] > 0) {
-                ans = i;
-                break;
+        for (int i = 0; i < 5001; ++i) {
+            if (dp[K][i] > ans) {
+                ans = dp[K][i];
             }
         }
     }
