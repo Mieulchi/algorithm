@@ -26,39 +26,49 @@ public class Main {
     static int [] d = new int [200001];
 
     //3rd arr means bitmasks 101 -> forward1, middle0, defence1
-    static int [][][][] dp = new int [200001][12][8][2];
+    static int [][][] dp = new int [12][8][2];
 
     static int ans;
 
     static void solve() {
 
-        dp[1][1][1][0] = a[1];
-        dp[1][1][2][0] = b[1];
-        dp[1][1][4][0] = c[1];
-        dp[1][1][0][1] = d[1];
+        for (int i = 1; i <= N; i++) {
 
-        for (int i = 2; i <= N; i++) {
-            for(int j = 1; j < 12; ++j) {
-                for(int k = 1; k < 8; ++k) {
 
-                    if (dp[i - 1][j - 1][k][0] > 0) {
+            for(int j = 11; j > 0; --j) {
+                for(int k = 0; k < 8; ++k) {
+
+                    if (dp[j - 1][k][0] > 0) {
                         // 1. forward
-                        dp[i][j][k | 4][0] = Math.max(dp[i][j][k | 4][0], dp[i - 1][j - 1][k][0] + a[i]);
+                        dp[j][k | 4][0] = Math.max(dp[j][k | 4][0], dp[j - 1][k][0] + a[i]);
 
                         // 2. middle
-                        dp[i][j][k | 2][0] = Math.max(dp[i][j][k | 2][0], dp[i - 1][j - 1][k][0] + b[i]);
+                        dp[j][k | 2][0] = Math.max(dp[j][k | 2][0], dp[j - 1][k][0] + b[i]);
 
                         // 3. defence
-                        dp[i][j][k | 1][0] = Math.max(dp[i][j][k | 1][0], dp[i - 1][j - 1][k][0] + c[i]);
+                        dp[j][k | 1][0] = Math.max(dp[j][k | 1][0], dp[j - 1][k][0] + c[i]);
 
                         // 4. GK
-                        dp[i][j][k][1] = Math.max(dp[i][j][k][1], dp[i - 1][j - 1][k][0] + d[i]);
+                        dp[j][k][1] = Math.max(dp[j][k][1], dp[j - 1][k][0] + d[i]);
+                    }
+
+                    if (dp[j - 1][k][1] > 0) {
+                        dp[j][k | 4][1] = Math.max(dp[j][k | 4][1], dp[j - 1][k][1] + a[i]);
+
+                        dp[j][k | 2][1] = Math.max(dp[j][k | 2][1], dp[j - 1][k][1] + b[i]);
+
+                        dp[j][k | 1][1] = Math.max(dp[j][k | 1][1], dp[j - 1][k][0] + c[i]);
                     }
                 }
             }
+
+            dp[1][1][0] = Math.max(dp[1][1][0], a[i]);
+            dp[1][2][0] = Math.max(dp[1][2][0], b[i]);
+            dp[1][4][0] = Math.max(dp[1][4][0], c[i]);
+            dp[1][0][1] = Math.max(dp[1][0][1], d[i]);
         }
 
-        ans = dp[N][11][7][1];
+        ans = dp[11][7][1];
     }
 
     public static void main(String[] args) throws NumberFormatException, IOException {
