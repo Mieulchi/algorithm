@@ -25,7 +25,7 @@ public class Main {
     static int [] c = new int [200001];
     static int [] d = new int [200001];
 
-    //3rd arr means bitmasks 101 -> forward1, middle0, defence1
+    //2nd arr means bitmasks 101 -> forward1, middle0, defence1
     static int [][][] dp = new int [12][8][2];
 
     static int ans;
@@ -33,8 +33,6 @@ public class Main {
     static void solve() {
 
         for (int i = 1; i <= N; i++) {
-
-
             for(int j = 11; j > 0; --j) {
                 for(int k = 0; k < 8; ++k) {
 
@@ -57,14 +55,15 @@ public class Main {
 
                         dp[j][k | 2][1] = Math.max(dp[j][k | 2][1], dp[j - 1][k][1] + b[i]);
 
-                        dp[j][k | 1][1] = Math.max(dp[j][k | 1][1], dp[j - 1][k][0] + c[i]);
+                        dp[j][k | 1][1] = Math.max(dp[j][k | 1][1], dp[j - 1][k][1] + c[i]);
+
                     }
                 }
             }
 
-            dp[1][1][0] = Math.max(dp[1][1][0], a[i]);
+            dp[1][4][0] = Math.max(dp[1][4][0], a[i]);
             dp[1][2][0] = Math.max(dp[1][2][0], b[i]);
-            dp[1][4][0] = Math.max(dp[1][4][0], c[i]);
+            dp[1][1][0] = Math.max(dp[1][1][0], c[i]);
             dp[1][0][1] = Math.max(dp[1][0][1], d[i]);
         }
 
