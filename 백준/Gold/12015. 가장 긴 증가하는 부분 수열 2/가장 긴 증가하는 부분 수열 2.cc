@@ -2,35 +2,38 @@
 #include <algorithm>
 using namespace std;
 
-int seq[1000001];
-int dp[1000001];
+int n;
+int arr[1000000];
+int dp[1000000];
+int ans;
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    
-	int n;
-	cin >> n;
-	for (int i = 0; i < n; i++) {
-		cin >> seq[i];
-	}
+void solve() {
 
-	dp[0] = seq[0];
-	int pointer = 0;
+	int idx = 0;
+	dp[0] = arr[0];
+	for (int i = 0; i < n; ++i) {
 
-	for (int i = 1; i < n; i++) {
-		int change = 0;
-		if (dp[pointer] < seq[i]) {
-			dp[++pointer] = seq[i];
+		if (dp[idx] < arr[i]) {
+			dp[++idx] = arr[i];
 		}
 		else {
-			int index = lower_bound(dp, dp + pointer, seq[i]) - dp;
-			if (dp[index] > seq[i]) {
-				dp[index] = seq[i];
-			}
+			int find = lower_bound(dp, dp + idx, arr[i]) - dp;
+			dp[find] = arr[i];
 		}
 	}
+	ans = idx + 1;
+}
 
-	cout << ++pointer << '\n';
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
 
+	cin >> n;
+	for (int i = 0; i < n; ++i) {
+		cin >> arr[i];
+	}
+	
+	solve();
+
+	cout << ans;
 }
