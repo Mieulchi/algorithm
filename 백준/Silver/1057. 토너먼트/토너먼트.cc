@@ -1,27 +1,26 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
-int n;
-int g, h;
-int ans;
+#define MOD 1000000007
+typedef long long ll;
+
+int n, a, b;
+int ans = 1;
 
 void solve() {
-	int size = 2;
-	ans = 1;
-	while (size <= n) {
-		int flag = 0;
-		for (int i = 1; i <= n; i += size) {
-			if ((i <= g && g < i + size) && (i <= h && h < i + size)) {
-				flag = 1;
-				break;
-			}
-		}
-		if (flag) {
-			break;
-		}
-
-		size *= 2;
+	if (a > b) {
+		swap(a, b);
+	}
+	while (!(abs(b - a) == 1 && a % 2)) {
 		ans++;
+
+		a += a % 2;
+		a /= 2;
+
+		b += b % 2;
+		b /= 2;
+		
 	}
 }
 
@@ -29,8 +28,8 @@ int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	cin >> n >> g >> h;
-
+	cin >> n >> a >> b;
+	
 	solve();
 
 	cout << ans;
