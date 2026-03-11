@@ -9,9 +9,7 @@ using namespace std;
 int num = 1;
 
 struct Trie {
-	bool isEnd;
 	map<string, int> m;
-	Trie() : isEnd(false) {};
 };
 
 Trie trie[15005];
@@ -26,7 +24,6 @@ void insert(vector<string> v) {
 
 		curr = trie[curr].m[s];
 	}
-	trie[curr].isEnd = true;
 }
 
 void dfs(string s, int curr, int depth) {
@@ -34,9 +31,7 @@ void dfs(string s, int curr, int depth) {
 		cout << "--";
 	}
 	cout << s << '\n';
-	if (trie[curr].isEnd) {
-		return;
-	}
+
 	for (auto& it : trie[curr].m) {
 		dfs(it.first, it.second, depth + 1);
 	}
