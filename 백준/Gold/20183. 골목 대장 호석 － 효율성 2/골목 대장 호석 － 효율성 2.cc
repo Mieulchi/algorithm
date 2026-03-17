@@ -50,7 +50,7 @@ void solve() {
 			int next = p.first;
 			ll nW = p.second.first;
 			int nShame = p.second.second;
-			int distance = dist[now] + nW;
+			ll distance = dist[now] + nW;
 			if (dist[next] > distance && distance < minDist[next]) {
 				minDist[next] = distance;
 				pq.push({ next, {distance, max(shame, nShame)} });
