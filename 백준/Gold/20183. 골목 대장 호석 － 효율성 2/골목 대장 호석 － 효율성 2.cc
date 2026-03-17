@@ -3,15 +3,15 @@
 using namespace std;
 
 #define INF 1000000007
-typedef pair<int, pair<int, int>> ppp;
 typedef long long ll;
+typedef pair<int, pair<ll, int>> ppp;
 
 int n, m, a, b, ans = INF;
 ll c;
 
 vector<ppp> v[100001];
-int dist[100001];
-int minDist[100001];
+ll dist[100001];
+ll minDist[100001];
 
 struct cmp {
 	bool operator()(ppp p1, ppp p2) {
@@ -32,7 +32,7 @@ void solve() {
 		ppp front = pq.top();
 		pq.pop();
 		int now = front.first;
-		int w = front.second.first;
+		ll w = front.second.first;
 		int shame = front.second.second;
 
 		if (now == b && w && w <= c) {
@@ -48,7 +48,7 @@ void solve() {
 		
 		for (ppp p : v[now]) {
 			int next = p.first;
-			int nW = p.second.first;
+			ll nW = p.second.first;
 			int nShame = p.second.second;
 			int distance = dist[now] + nW;
 			if (dist[next] > distance && distance < minDist[next]) {
