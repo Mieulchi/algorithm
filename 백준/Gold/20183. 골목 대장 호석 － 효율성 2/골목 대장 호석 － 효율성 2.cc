@@ -1,13 +1,15 @@
 #include <iostream>
 #include <queue>
+#include <climits>
 using namespace std;
 
-#define INF 1000000007
-typedef long long ll;
-typedef pair<int, pair<ll, int>> ppp;
 
-int n, m, a, b, ans = INF;
-ll c;
+typedef long long ll;
+typedef pair<int, pair<ll, ll>> ppp;
+
+ll INF = LLONG_MAX;
+int n, m, a, b;
+ll c, ans = INF;
 
 vector<ppp> v[100001];
 ll dist[100001];
@@ -33,9 +35,9 @@ void solve() {
 		pq.pop();
 		int now = front.first;
 		ll w = front.second.first;
-		int shame = front.second.second;
+		ll shame = front.second.second;
 
-		if (now == b && w && w <= c) {
+		if (now == b && w <= c) {
 			ans = min(ans, shame);
 		}
 
@@ -43,13 +45,13 @@ void solve() {
 			continue;
 		}
 
-
 		dist[now] = w;
 		
-		for (ppp p : v[now]) {
+		for (int i = 0; i < v[now].size(); ++i) {
+			ppp p = v[now][i];
 			int next = p.first;
 			ll nW = p.second.first;
-			int nShame = p.second.second;
+			ll nShame = p.second.second;
 			ll distance = dist[now] + nW;
 			if (dist[next] > distance && distance < minDist[next]) {
 				minDist[next] = distance;
