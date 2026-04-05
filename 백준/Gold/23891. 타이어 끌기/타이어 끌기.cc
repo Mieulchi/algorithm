@@ -13,18 +13,18 @@ int dp[100001];
 string ans;
 
 void solve() {
-    for (int i = 100000; i >= 0; --i) {
+    for (int i = m; i >= 0; --i) {
         dp[i] = -total;
     }
 
     for (int i = 1; i <= n; ++i) {
         int s = arr[i].first;
         int p = arr[i].second;
-        for (int j = 100000; j >= 0; --j) {
-            if (j <= m && j - p - 1 >= 0 && dp[j - p - 1] != -1) {
+        for (int j = m; j >= 0; --j) {
+            if (j <= m && j - p - 1 >= 0 && dp[j - p - 1] != -total) {
                 dp[j] = max(dp[j], dp[j - p - 1] + s * 2);
             }
-            if (j <= m && j - p >= 0 && dp[j - p] != -1) {
+            if (j <= m && j - p >= 0 && dp[j - p] != -total) {
                 dp[j] = max(dp[j], dp[j - p] + s);
             }
         }
@@ -37,7 +37,7 @@ void solve() {
     }
 
     int mx = -total;
-    for (int i = 100000; i >= 0; --i) {
+    for (int i = m; i >= 0; --i) {
         mx = max(mx, dp[i]);
     }
     if (mx > 0) {
