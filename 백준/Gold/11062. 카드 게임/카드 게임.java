@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,16 +12,18 @@ public class Main {
     static int N, ans, total;
     static int [] arr = new int[1002];
 
-    static int [][] dp;
+    static int [][] dp = new int[1002][1002];
     static int [] sum = new int[1002];
     
     static void solve() {
         for (int i = 1; i <= N; i++) {
             sum[i] = sum[i - 1] + arr[i];
+            for(int j = 1; j <= N; j++) {
+                dp[i][j] = 0;
+            }
         }
-        ans = 0;
 
-        dp = new int[N + 2][N + 2];
+        ans = 0;
 
         for (int i = 1; i <= N; i++) {
             for(int j = 1; j <= N - i + 1; j++) {
