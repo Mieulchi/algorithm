@@ -3,7 +3,7 @@ using namespace std;
 
 typedef pair<int, int> pp;
 
-int dp[100001][6];
+int dp[31][6];
 
 void solve() {
 	dp[0][0] = 1;
