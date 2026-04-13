@@ -7,49 +7,46 @@ using namespace std;
 int n, m, k, ans = INF;
 int origin[50][50];
 int map[50][50];
-int cpy[50][50];
+
 int a[6];
 int b[6];
 int c[6];
 int seq[6];
 
 void rotate(int a, int b, int c) {
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            cpy[i][j] = map[i][j];
-        }
-    }
-
+    
     for (int i = 1; i <= c; ++i) {
+
         int sr = a - i;
         int sc = b - i;
 
         int tr = sr + i * 2;
         int tc = sc + i * 2;
 
-        for (int c = sc + 1; c <= tc; ++c) {
-            cpy[sr][c] = map[sr][c - 1];
+        int m1 = map[sr + 1][sc];
+        int m2 = map[sr][tc - 1];
+        int m3 = map[tr - 1][tc];
+        int m4 = map[tr][sc + 1];
+
+        for (int c = tc - 1; c >= sc + 1; --c) {
+            map[sr][c] = map[sr][c - 1];
         }
-        for (int c = sc; c < tc; ++c) {
-            cpy[tr][c] = map[tr][c + 1];
+        for (int c = sc + 1; c < tc; ++c) {
+            map[tr][c] = map[tr][c + 1];
         }
 
-        for (int r = sr + 1; r <= tr; ++r) {
-            cpy[r][tc] = map[r - 1][tc];
+        for (int r = tr - 1; r >= sr + 1; --r) {
+            map[r][tc] = map[r - 1][tc];
         }
-        for (int r = sr; r < tr; ++r) {
-            cpy[r][sc] = map[r + 1][sc];
+        for (int r = sr + 1; r < tr; ++r) {
+            map[r][sc] = map[r + 1][sc];
         }
-        cpy[sr][sc] = map[sr + 1][sc];
-        cpy[sr][tc] = map[sr][tc - 1];
-        cpy[tr][tc] = map[tr - 1][tc];
-        cpy[tr][sc] = map[tr][sc + 1];
+        map[sr][sc] = m1;
+        map[sr][tc] = m2;
+        map[tr][tc] = m3;
+        map[tr][sc] = m4;
     }
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            map[i][j] = cpy[i][j];
-        }
-    }
+
 }
 
 void dfs(int depth, int bitmask) {
